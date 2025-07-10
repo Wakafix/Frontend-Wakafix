@@ -6,7 +6,6 @@ import {
   FlatList,
   StyleSheet,
   TouchableOpacity,
-  Touchable,
 } from "react-native";
 import { useRouter } from "expo-router";
 
@@ -37,7 +36,14 @@ export default function SearchScreen() {
   const [search, setSearch] = useState("");
 
   const filteredWorkers = workers.filter((worker) =>
-    worker.skills.toLowerCase().includes(search.toLowerCase())
+    // Also search in name and availability for better UX
+    (
+      worker.skills.toLowerCase() +
+      " " +
+      worker.name.toLowerCase() +
+      " " +
+      worker.availability.toLowerCase()
+    ).includes(search.toLowerCase())
   );
 
   return (
@@ -46,7 +52,7 @@ export default function SearchScreen() {
 
       <TextInput
         style={styles.input}
-        placeholder="Search by skill or location..."
+        placeholder="Search by skill, name, or availability..."
         value={search}
         onChangeText={setSearch}
       />
@@ -57,7 +63,7 @@ export default function SearchScreen() {
           <Text style={styles.filterText}>Location ▼</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.filterBtn}>
-          <Text style={styles.filterText}>Skill Level ▼</Text>
+          <Text style={styles.filterText}>Skill Level ▼</Text> 
         </TouchableOpacity>
       </View>
 
@@ -66,19 +72,24 @@ export default function SearchScreen() {
         data={filteredWorkers}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <TouchableOpacity onPress={() => router.push(`/worker/ ${item.id}`)}>
-          <View style={styles.card}>
-            <View style={styles.info}>
-              <Text style={styles.name}>{item.name}</Text>
-              <Text> {item.rating}</Text>
-              <Text>{item.priceRange}</Text>
-              <Text>{item.skills}</Text>
-              <Text>{item.availability}</Text>
-              <Text>🕒 Travel Time: {item.travelTime}</Text>
+          <TouchableOpacity onPress={() => router.push(`/worker/${item.id}`)}>
+            <View style={styles.card}>
+              <View style={styles.info}>
+                <Text style={styles.name}>{item.name}</Text>
+                <Text>⭐ {item.rating}</Text>
+                <Text>{item.priceRange}</Text>
+                <Text>{item.skills}</Text>
+                <Text>{item.availability}</Text>
+                <Text>🕒 Travel Time: {item.travelTime}</Text>
+              </View>
             </View>
-          </View>     
           </TouchableOpacity>
         )}
+        ListEmptyComponent={
+          <View style={{ alignItems: "center", marginTop: 30 }}>
+            <Text>No workers found.</Text>
+          </View>
+        }
       />
     </View>
   );
@@ -123,6 +134,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 10,
     elevation: 2,
+    shadowColor: "#000",
+    shadowOpacity: 0.08,
+    shadowRadius: 2,
+    shadowOffset: { width: 0, height: 1 },
   },
   info: {
     flex: 1,
@@ -131,5 +146,6 @@ const styles = StyleSheet.create({
   name: {
     fontWeight: "bold",
     fontSize: 16,
+    marginBottom: 4,
   },
 });

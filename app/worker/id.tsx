@@ -1,6 +1,9 @@
 import React from "react";
-import { View, Text, Button, StyleSheet } from "react-native";
+import { View, Text, Button, StyleSheet, ScrollView, Linking } from "react-native";
 import { useLocalSearchParams } from "expo-router";
+
+import WorkerReviews from "@/components/Worker/WorkerReviews";
+import ReviewForm from "@/components/Worker/ReviewForm";
 
 // Example data
 const workers = {
@@ -22,7 +25,7 @@ const workers = {
 
 export default function WorkerProfile() {
   const { id } = useLocalSearchParams();
-  const worker = workers[id];
+  const worker = workers[id as keyof typeof workers];
 
   if (!worker) {
     return (
@@ -32,22 +35,39 @@ export default function WorkerProfile() {
     );
   }
 
+  const handleCall = () => {
+    Linking.openURL(`tel:${worker.phone}`);
+  };
+
+  const handleWhatsApp = () => {
+    const message = `Hello ${worker.name}, I saw your profile on Wakafix and would like to hire you.`;
+    const phoneWithCountryCode = `234${worker.phone.slice(1)}`; // Converts 080... to +234...
+    Linking.openURL(`https://wa.me/${phoneWithCountryCode}?text=${encodeURIComponent(message)}`);
+  };
+
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.name}>{worker.name}</Text>
       <Text style={styles.text}>Bio: {worker.bio}</Text>
       <Text style={styles.text}>Skills: {worker.skills}</Text>
       <Text style={styles.text}>Rating: ⭐ {worker.rating}</Text>
-      <Button title="Call Worker" onPress={() => {}} />
-      <Button title="Message on WhatsApp" onPress={() => {}} />
-    </View>
+
+      <View style={styles.buttonGroup}>
+        <Button title="Call Worker" onPress={handleCall} />
+        <View style={styles.spacer} />
+        <Button title="Message on WhatsApp" onPress={handleWhatsApp} />
+      </View>
+
+      {/* Review Section */}
+      <WorkerReviews />
+      <ReviewForm />
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     padding: 20,
-    flex: 1,
     backgroundColor: "#fff",
   },
   name: {
@@ -58,5 +78,11 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 16,
     marginBottom: 6,
+  },
+  buttonGroup: {
+    marginVertical: 16,
+  },
+  spacer: {
+    height: 10,
   },
 });
