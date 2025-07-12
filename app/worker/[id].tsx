@@ -4,6 +4,7 @@ import { useLocalSearchParams } from "expo-router";
 
 import WorkerReviews from "@/components/Worker/WorkerReviews";
 import ReviewForm from "@/components/Worker/ReviewForm";
+import JobRequestForm from "@/components/Worker/JobRequestForm";
 
 // Example data
 const workers = {
@@ -61,6 +62,7 @@ export default function WorkerProfile() {
       {/* Review Section */}
       <WorkerReviews />
       <ReviewForm />
+      <JobRequestForm/>
     </ScrollView>
   );
 }
