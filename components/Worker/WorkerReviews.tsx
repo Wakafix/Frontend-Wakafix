@@ -2,7 +2,7 @@
 
 import React from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
-import Rating from "../common/Rating";
+import Rating from "../common/RatingStars";
 
 const dummyReviews = [
   { id: "1", name: "Jane Doe", rating: 5, comment: "Amazing service!" },

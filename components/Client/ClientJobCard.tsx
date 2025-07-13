@@ -2,20 +2,20 @@
 
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
+type JobStatus = "pending" | "accepted" | "declined" | "completed";
 
-interface Props {
-  job: {
+interface Jobs {
     id: string;
     description: string;
     location: string;
     date: string;
     price: string;
-    status: "pending" | "accepted" | "declined" | "completed";
+    status: string;
     worker?: string;
   };
-}
 
-export default function ClientJobCard({ job }: Props) {
+
+export default function ClientJobCard({ job }: { job: Jobs }) {
   const getStatusColor = () => {
     switch (job.status) {
       case "accepted":

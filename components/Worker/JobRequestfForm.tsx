@@ -1,10 +1,17 @@
-// components/Worker/JobRequestForm.tsx
-
 import React, { useState } from "react";
-import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  StyleSheet,
+  Alert,
+  useColorScheme,
+} from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
 export default function JobRequestForm() {
+  const colorScheme = useColorScheme(); // detect light or dark mode
   const [description, setDescription] = useState("");
   const [location, setLocation] = useState("");
   const [price, setPrice] = useState("");
@@ -12,19 +19,25 @@ export default function JobRequestForm() {
   const [showPicker, setShowPicker] = useState(false);
 
   const handleSubmit = () => {
-    if (!description  !location  !price) {
-      Alert.alert("Please fill in all fields");
+    if (!description || !location || !price) {
+      Alert.alert("Validation Error", "Please fill in all fields");
       return;
     }
 
-    Alert.alert("Request Sent", Job: ${description}\nLocation: ${location}\nDate: ${date.toDateString()}\nPrice: ₦${price});
-    
+
+    Alert.alert(
+      "Request Sent",
+      `Job: ${description}\nLocation: ${location}\nDate: ${date.toDateString()}\nPrice: ₦${price}`
+    );
+
     // Reset form
     setDescription("");
     setLocation("");
     setPrice("");
     setDate(new Date());
   };
+
+  const styles = getStyles(colorScheme ?? "light"); // use dynamic styles
 
   return (
     <View style={styles.container}>
@@ -40,7 +53,7 @@ export default function JobRequestForm() {
       />
 
       <Text style={styles.label}>Preferred Date & Time</Text>
-      <Button title={date.toDateString()} onPress={() => setShowPicker(true)} />
+      <Button title={date.toLocaleString()} onPress={() => setShowPicker(true)} />
       {showPicker && (
         <DateTimePicker
           value={date}
@@ -70,33 +83,40 @@ export default function JobRequestForm() {
         keyboardType="numeric"
       />
 
-      <Button title="Send Request" onPress={handleSubmit} />
+      <View style={{ marginTop: 16 }}>
+        <Button title="Send Request" onPress={handleSubmit} />
+      </View>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    marginTop: 24,
-    padding: 16,
-    backgroundColor: "#f0f0f0",
-    borderRadius: 12,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginBottom: 12,
-  },
-  label: {
-    marginTop: 12,
-    marginBottom: 4,
-    fontWeight: "600",
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 6,
-    padding: 10,
-    backgroundColor: "#fff",
-  },
-});
+// 🔧 Reusable function for light/dark mode styling
+const getStyles = (theme: "light" | "dark" | null) =>
+  StyleSheet.create({
+    container: {
+      marginTop: 24,
+      padding: 16,
+      backgroundColor: theme === "dark" ? "#1c1c1e" : "#f0f0f0",
+      borderRadius: 12,
+    },
+    title: {
+      fontSize: 20,
+      fontWeight: "bold",
+      marginBottom: 12,
+      color: theme === "dark" ? "#fff" : "#000",
+    },
+    label: {
+      marginTop: 12,
+      marginBottom: 4,
+      fontWeight: "600",
+      color: theme === "dark" ? "#ddd" : "#333",
+    },
+    input: {
+      borderWidth: 1,
+      borderColor: "#ccc",
+      borderRadius: 6,
+      padding: 10,
+      backgroundColor: theme === "dark" ? "#2c2c2e" : "#fff",
+      color: theme === "dark" ? "#fff" : "#000",
+    },
+  });

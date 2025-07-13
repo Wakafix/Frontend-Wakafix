@@ -19,12 +19,12 @@ export default function JobRequestCard({ job }: Props) {
 
   const handleAccept = () => {
     setStatus("accepted");
-    Alert.alert("Job Accepted", You accepted the job: ${job.description});
   };
+  Alert.alert("Job Accepted", `You accepted the job ${job.description}`);
 
   const handleDecline = () => {
     setStatus("declined");
-    Alert.alert("Job Declined", You declined the job from ${job.client});
+    Alert.alert("Job Declined", `You declined the job from ${job.client}`);
   };
 
   const getStatusColor = () => {

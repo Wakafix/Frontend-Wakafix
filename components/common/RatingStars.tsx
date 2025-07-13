@@ -10,7 +10,7 @@ interface Props {
   editable?: boolean;
 }
 
-export default function RatingStars({ rating, setRating, editable = false }: Props) {
+const RatingStars =({ rating, setRating, editable = false }: Props) => {
   return (
     <View style={styles.starContainer}>
       {[1, 2, 3, 4, 5].map((star) => (
@@ -31,7 +31,9 @@ export default function RatingStars({ rating, setRating, editable = false }: Pro
   );
 }
 
+
 const styles = StyleSheet.create({
   starContainer: { flexDirection: "row", marginVertical: 8 },
   star: { marginRight: 4 },
 });
+export default RatingStars;

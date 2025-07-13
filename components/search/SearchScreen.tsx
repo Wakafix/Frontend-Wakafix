@@ -11,7 +11,7 @@ import { useRouter } from "expo-router";
 
 const workers = [
   {
-    id: "1",
+    id: "1",                   
     name: "Grace Michael",
     rating: 4.8,
     priceRange: "₦10,000 - ₦15,000",

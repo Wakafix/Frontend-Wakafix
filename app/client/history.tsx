@@ -6,7 +6,7 @@ import ClientJobCard from "@/components/Client/ClientJobCard";
 
 const clientJobs = [
   {
-    id: "cjob1",
+    id: "1",
     description: "Repair electric socket",
     location: "Eliozu",
     date: "2025-07-13",
@@ -14,7 +14,7 @@ const clientJobs = [
     status: "pending",
   },
   {
-    id: "cjob2",
+    id: "2",
     description: "Fix water pump",
     location: "Rumuokoro",
     date: "2025-07-12",
@@ -23,7 +23,7 @@ const clientJobs = [
     worker: "Grace Michael",
   },
   {
-    id: "cjob3",
+    id: "3",
     description: "Generator repair",
     location: "GRA",
     date: "2025-07-10",

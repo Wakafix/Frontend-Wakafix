@@ -1,10 +1,11 @@
 import React from "react";
 import { View, Text, Button, StyleSheet, ScrollView, Linking } from "react-native";
 import { useLocalSearchParams } from "expo-router";
+import Header from "@/components/common/Header";
 
 import WorkerReviews from "@/components/Worker/WorkerReviews";
 import ReviewForm from "@/components/Worker/ReviewForm";
-import JobRequestForm from "@/components/Worker/JobRequestForm";
+import JobRequestForm from "@/components/Worker/JobRequestfForm";
 
 // Example data
 const workers = {
@@ -60,9 +61,9 @@ export default function WorkerProfile() {
       </View>
 
       {/* Review Section */}
-      <WorkerReviews />
+      <WorkerReviews /> 
       <ReviewForm />
-      <JobRequestForm/>
+      <JobRequestForm />
     </ScrollView>
   );
 }
